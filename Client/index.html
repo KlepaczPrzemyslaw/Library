@@ -28,16 +28,20 @@
 </head>
 
 <body>
+    <!-- NavBar -->
     <header>
         <nav class="navbar navbar-dark bg-primary">
             <a class="navbar-brand" href="#">Mała Biblioteka</a>
             <span class="navbar-text text-white">Autorzy: Damian Cichosz, Przemysław Klepacz</span>
         </nav>
     </header>
+    <!-- Main -->
     <main class="mt-4" >
+        <!-- Alert -->
         <div id="place-for-alert"></div>
         <div class="container-fluid">
             <div class="row">
+                <!-- Książki -->
                 <div class="col">
                     <h1>Książki</h1>
                     <div class="button-group">
@@ -63,10 +67,11 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            <!-- AJAX -->
                         </tbody>
                     </table>
                 </div>
+                <!-- Czytelnicy -->
                 <div class="col">
                     <h1>Czytelnicy</h1>
                     <div class="button-group">
@@ -92,10 +97,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-    
+                                <!-- AJAX -->
                             </tbody>
                         </table>
                 </div>
+                <!-- Wypożyczone -->
                 <div class="col">
                     <h1>Wypożyczone</h1>
                     <table id="lendTable" class="table table-hover table-sm">
@@ -108,7 +114,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-    
+                                <!-- AJAX -->
                             </tbody>
                     </table>
                 </div>

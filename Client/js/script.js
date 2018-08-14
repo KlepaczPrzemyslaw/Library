@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 // const na api URL
-const apiURL = "http://localhost:53269/api/";
+const apiURL = "http://localhost:49510/api/";
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Funkcje globalne //
@@ -22,6 +22,7 @@ $(function () {
     ///////////////////////////////////////////////////////////////////////////////
     // KSIĄŻKI
     ///////////////////////////////////////////////////////////////////////////////
+
     // pobiera wszystkie książki
     ajaxGetAllBooks();
 
@@ -52,25 +53,34 @@ $(function () {
             Author: bookAuthor
         }
 
+        // Dodanie
         if ($(this).text() == "Dodaj") {
+            // Wywołanie ajax - dodanie
             ajaxAddNewBook(newBook);
         }
+        // Edycja - na tym samym przycisku
         else if ($(this).text() == "Edytuj") {
+            // Pobranie ID
             let bookID = $("#nigdy-mnie-nie-znajdziecie").eq(0).val();
+            // Wywołanie ajax - edit
             ajaxEditBook(bookID, newBook);
+            // Powrót do dodania
             addButton.html('<i class="fa fa-plus mr-2"></i>Dodaj');
         }
+        // Błąd
         else {
             functionShowStatement("Błędna akcja!!!!", "danger");
             return null;
         }
     });
 
-    // Eventy - Edit, Delete, Lend
+    // Eventy - Edit
     $('#booksTable').on("click", "button.editBook", function () {
+        // Pod edit
         let addButton = $("#form-add-button");
         addButton.html('<i class="fa fa-plus mr-2"></i>Edytuj');
 
+        // Znalezienie ID
         let bookID = $(this).closest("tr[data-book-id]").attr("data-book-id");
         let neverFound = $("#nigdy-mnie-nie-znajdziecie");
         neverFound.val(bookID);
@@ -79,21 +89,28 @@ $(function () {
         ajaxGetBook(bookID);
     });
 
+    // Eventy - Delete
     $('#booksTable').on("click", "button.deleteBook", function () {
+        // Znalezienie ID
         let bookID = $(this).closest("tr[data-book-id]").attr("data-book-id");
         ajaxRemoveBook(bookID);
     });
 
+    // Eventy - Lend
     $('#booksTable').on("click", "button.lendBook", function () {
         $(".chooseReader").css("display", "inline");
+
+        // Znalezienie ID
         let bookID = $(this).closest("tr[data-book-id]").attr("data-book-id");
         let neverFound = $("#nigdy-mnie-nie-znajdziecie");
+
         neverFound.val(bookID);
     });
 
     ///////////////////////////////////////////////////////////////////////////////
     // UŻYTKOWNICY
-    //////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////
+
     // pobiera wszystkich czytelników
     ajaxGetAllReaders();
 
@@ -124,25 +141,34 @@ $(function () {
             Age: readerAge
         }
 
+        // Dodanie
         if ($(this).text() == "Dodaj") {
+            // Wywołanie ajax - dodanie
             ajaxAddNewReader(newReader);
         }
+        // Edycja - na tym samym przycisku
         else if ($(this).text() == "Edytuj") {
+            // Pobranie ID
             let readerID = $("#reader-nigdy-mnie-nie-znajdziecie").eq(0).val();
+            // Wywołanie ajax - edit
             ajaxEditReader(readerID, newReader);
+            // Powrót do dodania
             readerAddButton.html('<i class="fa fa-plus mr-2"></i>Dodaj');
         }
+        // Błąd
         else {
             functionShowStatement("Błędna akcja!!!!", "danger");
             return null;
         }
     });
 
-    // Eventy - Edit, Delete, Choice
+    // Eventy - Edit
     $('#readersTable').on("click", "button.editReader", function () {
+        // Pod edit
         let readerAddButton = $("#reader-form-add-button");
         readerAddButton.html('<i class="fa fa-plus mr-2"></i>Edytuj');
 
+        // Znalezienie ID
         let readerID = $(this).closest("tr[data-reader-id]").attr("data-reader-id");
         let readerNeverFound = $("#reader-nigdy-mnie-nie-znajdziecie");
         readerNeverFound.val(readerID);
@@ -151,20 +177,64 @@ $(function () {
         ajaxGetReader(readerID);
     });
 
+    // Eventy - Delete
     $('#readersTable').on("click", "button.deleteReader", function () {
+        // Znalezienie ID
         let readerID = $(this).closest("tr[data-reader-id]").attr("data-reader-id");
         ajaxRemoveReader(readerID);
     });
 
+    // Eventy - Choose
     $('#readersTable').on("click", "button.chooseReader", function () {
         $(".chooseReader").css("display", "none");
-        ajaxLendBookByReader();
+
+        // Znalezienie ID
+        let bookID = $("#nigdy-mnie-nie-znajdziecie").eq(0).val();
+        // Znalezienie ID
+        let readerID = $(this).closest("tr[data-reader-id]").attr("data-reader-id");
+
+        // Get Date
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1; //January is 0!s     
+        let yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = yyyy + '/' + mm + '/' + dd;
+
+        // JSON z wypożyczeniem
+        var newLend = {
+            BookID: bookID,
+            ReaderID: readerID,
+            LendDate: today
+        };
+
+        ajaxLendBookByReader(newLend);
+    });
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Wypożyczone
+    ///////////////////////////////////////////////////////////////////////////////
+
+    // pobiera wszystkich wypożyczeń
+    ajaxGetAllLends();
+
+    // Event - Delete
+    $('#lendTable').on("click", "button.deleteLend", function () {
+        // Znalezienie ID
+        let lendID = $(this).closest("tr[data-lend-id]").attr("data-lend-id");
+        ajaxLendRemove(lendID);
     });
 });
 
 ///////////////////////////////////////////////////////////////////////////////////
 // AJAX - KSIĄŻKI //
 ///////////////////////////////////////////////////////////////////////////////////
+
 // AJAX - pobiera wszystkie książki
 
 function ajaxGetAllBooks() {
@@ -236,10 +306,10 @@ function ajaxRemoveBook(bookID) {
     });
 };
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 // AJAX - UŻYTKOWNICY //
 ////////////////////////////////////////////////////////////////////////////////////
+
 // AJAX - pobiera wszystkich czytelników
 
 function ajaxGetAllReaders() {
@@ -315,18 +385,42 @@ function ajaxRemoveReader(readerID) {
 // AJAX - WYPOŻYCZENIE //
 ////////////////////////////////////////////////////////////////////////////////////
 
+// AJAX - pobierz wszystkie wypożyczenia
+
+function ajaxGetAllLends() {
+    $.ajax({
+        url: apiURL + "lend/"
+    }).done(function (resp) {
+        functionRenderAllLends(resp);
+    }).fail(function (err) {
+        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+    })
+}
+
 // AJAX - wypożycz książkę dla czytelnika
 
 function ajaxLendBookByReader(newLend) {
     $.ajax({
         url: apiURL + "lend",
         type: "POST",
-        dataType: "json",
         data: newLend // DATA - JSON
     }).done(function () {
         functionShowStatement("Lent!", "success");
-        functionNewLendNode(newLend);
-        functionResetNameAndAgeInputs();
+        ajaxGetAllLends();
+    }).fail(function (err) {
+        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+    })
+};
+
+// AJAX - usuń wypożyczenie
+
+function ajaxLendRemove(lendID){
+    $.ajax({
+        url: apiURL + "lend/" + lendID,
+        type: "DELETE",
+    }).done(function () {
+        functionShowStatement("Deleted!", "warning");
+        ajaxGetAllLends();
     }).fail(function (err) {
         functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
     })
@@ -352,16 +446,14 @@ function functionRenderAllBooks(books) {
         var authorCol = $("<td>").text(books[i].Author);
         authorCol.appendTo(newRow);
 
-        var buttons = $(`
-        <tr>
+        var buttons = $(`        
             <td>
                 <div class="button-group">
                     <button class="btn btn-primary btn-sm editBook">Edytuj</button>
                     <button class="btn btn-danger btn-sm deleteBook">Usuń</button>
                     <button class="btn btn-info btn-sm lendBook">Wypożycz</button>
                 </div>
-            </td>
-        </tr>)`);
+            </td>)`);
 
         newRow.append(buttons);
         booksTable.append(newRow);
@@ -395,10 +487,6 @@ function functionShowStatement(text, statementType) {
 
         case "danger":
             alertClass += "danger";
-            break;
-
-        case "info":
-            alertClass += "info";
             break;
 
         default:
@@ -448,20 +536,19 @@ function functionRenderAllReaders(readers) {
         authorCol.appendTo(newRow);
 
         var buttons = $(`
-        <tr>
             <td>
                 <div class="button-group">
                     <button class="btn btn-primary btn-sm editReader">Edytuj</button>
                     <button class="btn btn-danger btn-sm deleteReader">Usuń</button>
                     <button class="btn btn-info btn-sm chooseReader" style="display:none;">Wybierz</button>
                 </div>
-            </td>
-        </tr>)`);
+            </td>)`);
 
         newRow.append(buttons);
         readersTable.append(newRow);
     }
 };
+
 // Funkcja - pod AJAX - renderuje czytelnika
 
 function functionRenderReader(reader) {
@@ -472,14 +559,34 @@ function functionRenderReader(reader) {
     readerAge.val(reader.Age);
 }
 
-// Funkcja - pod ajax - tworzy nowy węzeł i dodaje go do istniejącej tabeli
+// Funkcja - pod AJAX - renderuje wypożyczenia
 
-function functionNewLendNode(newLend) {
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // TODO ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function functionRenderAllLends(lends) {
+    var lendTable = $("#lendTable").find("tbody");
+
+    // Usuwanie wnętrza tabeli
+    lendTable.html("");
+
+    // Wypełnianie aktualnymi danymi
+    for (var i = 0; i < lends.length; i++) {
+        var newRow = $("<tr data-lend-id=" + lends[i].ID + "></tr>");
+        
+        var titleCol = $("<td>").text(lends[i].Title);
+        titleCol.appendTo(newRow);
+        
+        var nameCol = $("<td>").text(lends[i].Name);
+        nameCol.appendTo(newRow);
+
+        var dateCol = $("<td>").text(lends[i].LendDate);
+        dateCol.appendTo(newRow);
+
+        var button = $(`
+            <td>
+                <button class="btn btn-warning btn-sm deleteLend">Oddaj</button>
+            </td>)`);
+
+        newRow.append(button);
+        lendTable.append(newRow);
+    }
 }
 
