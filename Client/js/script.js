@@ -229,6 +229,16 @@ $(function () {
         let lendID = $(this).closest("tr[data-lend-id]").attr("data-lend-id");
         ajaxLendRemove(lendID);
     });
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Newsletter
+    ///////////////////////////////////////////////////////////////////////////////
+
+    let interval = setInterval(function () {
+        $("#Newsletter").fadeOut(1500);
+        $("#Newsletter").fadeIn(1500);
+    }, 3000);
+    interval();
 });
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -589,4 +599,3 @@ function functionRenderAllLends(lends) {
         lendTable.append(newRow);
     }
 }
-
