@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 // const na api URL
-const apiURL = "http://localhost:55828/api/";
+const apiURL = "http://localhost:49364/api/";
 
 ////////////////////////////////////////////////////////////////////////////////////
 // DOM LOADED //
@@ -12,11 +12,13 @@ const apiURL = "http://localhost:55828/api/";
 $(function () {
     
     // pobiera wszystkie książki
-    getAllBooks();
+    ajaxGetAllBooks();
 
     // Eventy - Edit, Delete, Lend
     $('#booksTable').on("click", "button.editBook", function (e) {
-        console.log("EDIT ", this);
+        let bookID = $(this).parent().parent().parent().parent().attr("data-book-id");
+        ajaxRemoveBook(bookID);
+        ajaxGetAllBooks();
     });
 
     $('#booksTable').on("click", "button.deleteBook", function (e) {
@@ -35,11 +37,11 @@ $(function () {
 
 // AJAX - pobiera wszystkie książki
 
-function getAllBooks() {
+function ajaxGetAllBooks() {
     $.ajax({
         url: apiURL + "books/"
     }).done(function (resp) {
-        renderAllBooks(resp);
+        functionRenderAllBooks(resp);
     }).fail(function (err) {
         console.log("błąd: ", err)
     })
@@ -47,7 +49,7 @@ function getAllBooks() {
 
 // AJAX - pobiera pojedyńczą książkę
 
-function getBook(bookID) {
+function ajaxGetBook(bookID) {
     $.ajax({
         url: apiURL + "books/" + bookID
     }).done(function (resp) {
@@ -59,7 +61,7 @@ function getBook(bookID) {
 
 // AJAX - dodaje książkę
 
-function addNewBook(newbook) {
+function ajaxAddNewBook(newbook) {
     $.ajax({
         url: apiURL + "books",
         type: "POST",
@@ -74,7 +76,7 @@ function addNewBook(newbook) {
 
 // AJAX - edytuje książkę
 
-function editBook(bookID, newBook) {
+function ajaxEditBook(bookID, newBook) {
     $.ajax({
         url: apiURL + "books/" + bookID,
         type: "PUT",
@@ -87,13 +89,26 @@ function editBook(bookID, newBook) {
     });
 };
 
+// AJAX - usuń książkę
+
+function ajaxRemoveBook(bookID) {
+    $.ajax({
+        url: apiURL + "books/" + bookID,
+        type: "DELETE",
+    }).done(function (resp) {
+        console.log(resp);
+    }).fail(function (err) {
+        console.log(err);
+    });
+};
+
 ////////////////////////////////////////////////////////////////////////////////////
-// AJAX //
+// funkcje pod AJAX //
 ////////////////////////////////////////////////////////////////////////////////////
 
 // Funkcja - pod AJAX - renderuje książki
 
-function renderAllBooks(books) {
+function functionRenderAllBooks(books) {
     var booksTable = $("#booksTable").find("tbody");
     for (var i = 0; i < books.length; i++) {
         var newRow = $("<tr data-book-id=" + books[i].ID + "></tr>");
@@ -104,8 +119,6 @@ function renderAllBooks(books) {
 
         var buttons = $(`
         <tr>
-            <td>[Tytuł]</td>
-            <td>[Autor]</td>
             <td>
                 <div class="button-group">
                     <button class="btn btn-primary btn-sm editBook">Edytuj</button>
