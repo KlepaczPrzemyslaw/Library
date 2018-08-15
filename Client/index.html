@@ -36,21 +36,31 @@
         </nav>
     </header>
     <!-- Main -->
-    <main class="mt-4" >
-        <!-- Alert -->
-        <div class="col" id="Newsletter">
-            <div class="alert alert-dark">
-                <span class="ml-5 align-middle">Zapisz Się Na Newsletter!!</span>
-                <input class="form-control d-inline-block ml-5 align-middle" type="text" name="input-newsletter" style="width: 25%">
-                <input class="btn btn-light ml-1 mr-5 align-middle" type="submit" value="Send" >
-                <u><i><span class="ml-5 align-middle">Kliknij Mnie!</span></i></u>
-                <u><i><span class="ml-5 align-middle">Kliknij Mnie!</span></i></u>
-                <u><i><span class="ml-5 align-middle">Kliknij Mnie!</span></i></u>
-                <u><i><span class="ml-5 align-middle">Kliknij Mnie!</span></i></u>
-                <u><i><span class="ml-5 align-middle">Kliknij Mnie!</span></i></u>
-            </div>
+    <main class="mt-4">
+        <!-- Newsletter -->
+        <div class="col">
+            <a href="https://pl.wikipedia.org/wiki/Newsletter" target="_blank">
+                <div class="alert alert-dismissible" id="Newsletter" role="newsletter" 
+                style="background-color: #1b1b57; background-image: url('img/bgimg.png'); background-position: 50% 50%; background-repeat: no-repeat">
+                    <div class="container">
+                        <h4 class="d-inline text-light align-middle">Zapisz Się Na Newsletter!!</h4>
+                        <input class="form-control d-inline-block ml-3 align-middle" type="text" name="input-newsletter" style="width: 270px;">
+                        <input class="btn btn-light ml-1 mr-3 align-middle" data-dismiss="alert" type="submit" value="Send" id="Newsletter-button">
+                        <i>
+                            <h5 class="d-inline ml-3 align-middle text-light">Kliknij Mnie!</h5>
+                        </i>
+                        <i>
+                            <h5 class="d-inline ml-3 align-middle text-light">Kliknij Mnie!</h5>
+                        </i>
+                        <i>
+                            <h5 class="d-inline ml-3 align-middle text-light">Kliknij Mnie!</h5>
+                        </i>
+                    </div>
+                </div>
+            </a>
         </div>
-        <div id="place-for-alert"></div>      
+        <!-- Alert -->
+        <div id="place-for-alert"></div>
         <div class="container-fluid">
             <div class="row">
                 <!-- Książki -->
@@ -87,47 +97,47 @@
                 <div class="col">
                     <h1>Czytelnicy</h1>
                     <div class="button-group">
+                    </div>
+                    <form action="/">
+                        <input type="hidden" id="reader-nigdy-mnie-nie-znajdziecie" value="">
+                        <div class="form-group">
+                            <label for="">Imię i nazwisko</label>
+                            <input class="form-control" id="reader-form-name" type="text">
                         </div>
-                        <form action="/">
-                            <input type="hidden" id="reader-nigdy-mnie-nie-znajdziecie" value="">
-                            <div class="form-group">
-                                <label for="">Imię i nazwisko</label>
-                                <input class="form-control" id="reader-form-name" type="text">
-                            </div>
-                            <div class="form-group">
-                                <label for="">Wiek</label>
-                                <input class="form-control" id="reader-form-age" type="text">
-                            </div>
-                            <button class="btn btn-success btn-sm" id="reader-form-add-button"><i class="fa fa-plus mr-2"></i>Dodaj</button>
-                        </form>
-                        <table id="readersTable" class="table table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Imię i nazwisko</th>
-                                    <th>Wiek</th>
-                                    <th>Opcje</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- AJAX -->
-                            </tbody>
-                        </table>
+                        <div class="form-group">
+                            <label for="">Wiek</label>
+                            <input class="form-control" id="reader-form-age" type="text">
+                        </div>
+                        <button class="btn btn-success btn-sm" id="reader-form-add-button"><i class="fa fa-plus mr-2"></i>Dodaj</button>
+                    </form>
+                    <table id="readersTable" class="table table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th>Imię i nazwisko</th>
+                                <th>Wiek</th>
+                                <th>Opcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- AJAX -->
+                        </tbody>
+                    </table>
                 </div>
                 <!-- Wypożyczone -->
                 <div class="col">
                     <h1>Wypożyczone</h1>
                     <table id="lendTable" class="table table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Tytuł</th>
-                                    <th>Wypożyczający</th>
-                                    <th>Data Wypożyczenia</th>
-                                    <th>Opcje</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- AJAX -->
-                            </tbody>
+                        <thead>
+                            <tr>
+                                <th>Tytuł</th>
+                                <th>Wypożyczający</th>
+                                <th>Data Wypożyczenia</th>
+                                <th>Opcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- AJAX -->
+                        </tbody>
                     </table>
                 </div>
             </div>

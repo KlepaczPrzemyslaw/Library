@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 // const na api URL
-const apiURL = "http://localhost:49510/api/";
+const apiURL = "http://localhost:52444/api/";
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Funkcje globalne //
@@ -198,13 +198,17 @@ $(function () {
         let dd = today.getDate();
         let mm = today.getMonth() + 1; //January is 0!s     
         let yyyy = today.getFullYear();
+        let h = today.getHours();
+        let min = today.getMinutes();
+        let sec = today.getSeconds();
+
         if (dd < 10) {
             dd = '0' + dd;
         }
         if (mm < 10) {
             mm = '0' + mm;
         }
-        today = yyyy + '/' + mm + '/' + dd;
+        today = yyyy + '/' + mm + '/' + dd + ' ' + h + ":" + min + ":" + sec;
 
         // JSON z wypożyczeniem
         var newLend = {
@@ -220,7 +224,7 @@ $(function () {
     // Wypożyczone
     ///////////////////////////////////////////////////////////////////////////////
 
-    // pobiera wszystkich wypożyczeń
+    // pobiera wszystkie wypożyczenia
     ajaxGetAllLends();
 
     // Event - Delete
@@ -238,7 +242,6 @@ $(function () {
         $("#Newsletter").fadeOut(1500);
         $("#Newsletter").fadeIn(1500);
     }, 3000);
-    interval();
 });
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -424,7 +427,7 @@ function ajaxLendBookByReader(newLend) {
 
 // AJAX - usuń wypożyczenie
 
-function ajaxLendRemove(lendID){
+function ajaxLendRemove(lendID) {
     $.ajax({
         url: apiURL + "lend/" + lendID,
         type: "DELETE",
@@ -580,14 +583,13 @@ function functionRenderAllLends(lends) {
     // Wypełnianie aktualnymi danymi
     for (var i = 0; i < lends.length; i++) {
         var newRow = $("<tr data-lend-id=" + lends[i].ID + "></tr>");
-        
+
         var titleCol = $("<td>").text(lends[i].Title);
         titleCol.appendTo(newRow);
-        
+
         var nameCol = $("<td>").text(lends[i].Name);
         nameCol.appendTo(newRow);
-
-        var dateCol = $("<td>").text(lends[i].LendDate);
+        var dateCol = $("<td>").text(lends[i].LendDate.split("T").join(" "));
         dateCol.appendTo(newRow);
 
         var button = $(`
