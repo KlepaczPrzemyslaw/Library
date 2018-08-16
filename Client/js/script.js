@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 // const na api URL
-const apiURL = "http://localhost:52444/api/";
+const apiURL = "http://localhost:50970/api/";
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Funkcje globalne //
@@ -61,7 +61,7 @@ $(function () {
         // Edycja - na tym samym przycisku
         else if ($(this).text() == "Edytuj") {
             // Pobranie ID
-            let bookID = $("#nigdy-mnie-nie-znajdziecie").eq(0).val();
+            let bookID = $("#you-will-never-find-me").eq(0).val();
             // Wywołanie ajax - edit
             ajaxEditBook(bookID, newBook);
             // Powrót do dodania
@@ -82,7 +82,7 @@ $(function () {
 
         // Znalezienie ID
         let bookID = $(this).closest("tr[data-book-id]").attr("data-book-id");
-        let neverFound = $("#nigdy-mnie-nie-znajdziecie");
+        let neverFound = $("#you-will-never-find-me");
         neverFound.val(bookID);
 
         // Uzupełnienie pól tytułu i Autora
@@ -102,7 +102,7 @@ $(function () {
 
         // Znalezienie ID
         let bookID = $(this).closest("tr[data-book-id]").attr("data-book-id");
-        let neverFound = $("#nigdy-mnie-nie-znajdziecie");
+        let neverFound = $("#you-will-never-find-me");
 
         neverFound.val(bookID);
     });
@@ -149,7 +149,7 @@ $(function () {
         // Edycja - na tym samym przycisku
         else if ($(this).text() == "Edytuj") {
             // Pobranie ID
-            let readerID = $("#reader-nigdy-mnie-nie-znajdziecie").eq(0).val();
+            let readerID = $("#reader-you-will-never-find-me").eq(0).val();
             // Wywołanie ajax - edit
             ajaxEditReader(readerID, newReader);
             // Powrót do dodania
@@ -170,7 +170,7 @@ $(function () {
 
         // Znalezienie ID
         let readerID = $(this).closest("tr[data-reader-id]").attr("data-reader-id");
-        let readerNeverFound = $("#reader-nigdy-mnie-nie-znajdziecie");
+        let readerNeverFound = $("#reader-you-will-never-find-me");
         readerNeverFound.val(readerID);
 
         // Uzupełnienie pól Imienia oraz Nazwiska i Wieku
@@ -189,7 +189,7 @@ $(function () {
         $(".chooseReader").css("display", "none");
 
         // Znalezienie ID
-        let bookID = $("#nigdy-mnie-nie-znajdziecie").eq(0).val();
+        let bookID = $("#you-will-never-find-me").eq(0).val();
         // Znalezienie ID
         let readerID = $(this).closest("tr[data-reader-id]").attr("data-reader-id");
 
@@ -256,7 +256,7 @@ function ajaxGetAllBooks() {
     }).done(function (resp) {
         functionRenderAllBooks(resp);
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     })
 };
 
@@ -268,7 +268,7 @@ function ajaxGetBook(bookID) {
     }).done(function (resp) {
         functionRenderBook(resp);
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     });
 };
 
@@ -281,11 +281,11 @@ function ajaxAddNewBook(newBook) {
         dataType: "json",
         data: newBook // NEWBOOK - JSON
     }).done(function () {
-        functionShowStatement("Added!", "success");
+        functionShowStatement("Dodano!", "success");
         ajaxGetAllBooks();
         functionResetTitleAndAuthorInputs();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     })
 };
 
@@ -297,11 +297,11 @@ function ajaxEditBook(bookID, newBook) {
         type: "PUT",
         data: newBook // NEWBOOK - JSON
     }).done(function () {
-        functionShowStatement("Edited!", "success");
+        functionShowStatement("Zmieniono!", "success");
         ajaxGetAllBooks();
         functionResetTitleAndAuthorInputs();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     });
 };
 
@@ -312,10 +312,10 @@ function ajaxRemoveBook(bookID) {
         url: apiURL + "books/" + bookID,
         type: "DELETE",
     }).done(function () {
-        functionShowStatement("Deleted!", "warning");
+        functionShowStatement("Usunięto!", "warning");
         ajaxGetAllBooks();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     });
 };
 
@@ -331,7 +331,7 @@ function ajaxGetAllReaders() {
     }).done(function (resp) {
         functionRenderAllReaders(resp);
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     })
 };
 
@@ -343,7 +343,7 @@ function ajaxGetReader(readerID) {
     }).done(function (resp) {
         functionRenderReader(resp);
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     });
 };
 
@@ -356,11 +356,11 @@ function ajaxAddNewReader(newReader) {
         dataType: "json",
         data: newReader // NEWREADER - JSON
     }).done(function () {
-        functionShowStatement("Added!", "success");
+        functionShowStatement("Dodano!", "success");
         ajaxGetAllReaders();
         functionResetNameAndAgeInputs();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     })
 };
 
@@ -372,11 +372,11 @@ function ajaxEditReader(ID, newReader) {
         type: "PUT",
         data: newReader // NEWREADER - JSON
     }).done(function () {
-        functionShowStatement("Edited!", "success");
+        functionShowStatement("Zmieniono!", "success");
         ajaxGetAllReaders();
         functionResetNameAndAgeInputs();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     });
 };
 
@@ -387,10 +387,10 @@ function ajaxRemoveReader(readerID) {
         url: apiURL + "readers/" + readerID,
         type: "DELETE",
     }).done(function () {
-        functionShowStatement("Deleted!", "warning");
+        functionShowStatement("Usunięto!", "warning");
         ajaxGetAllReaders();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     });
 };
 
@@ -406,7 +406,7 @@ function ajaxGetAllLends() {
     }).done(function (resp) {
         functionRenderAllLends(resp);
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     })
 }
 
@@ -418,10 +418,10 @@ function ajaxLendBookByReader(newLend) {
         type: "POST",
         data: newLend // DATA - JSON
     }).done(function () {
-        functionShowStatement("Lent!", "success");
+        functionShowStatement("Wypożyczono!", "success");
         ajaxGetAllLends();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     })
 };
 
@@ -432,10 +432,10 @@ function ajaxLendRemove(lendID) {
         url: apiURL + "lend/" + lendID,
         type: "DELETE",
     }).done(function () {
-        functionShowStatement("Deleted!", "warning");
+        functionShowStatement("Usunięto!", "warning");
         ajaxGetAllLends();
     }).fail(function (err) {
-        functionShowStatement(`Error: ${err.status} - ${err.statusText}`, "danger");
+        functionShowStatement(`Błąd: ${err.status} - ${err.statusText}`, "danger");
     })
 };
 

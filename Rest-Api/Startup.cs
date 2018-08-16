@@ -78,7 +78,7 @@ namespace Rest_Api
 
                 foreach (var br in bookReaderModels)
                 {
-                    Console.WriteLine($"Book-Reader: {br.ID}, {br.BookID}, {br.ReaderID},");
+                     Console.WriteLine($"Book-Reader: {br.ID}, {br.BookID}, {br.ReaderID}, {br.LendDate}");
                 }
 
                 context.Books.AddRange(bookModels);
