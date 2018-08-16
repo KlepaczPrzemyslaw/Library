@@ -74,11 +74,11 @@ namespace Rest_Api
                 bookReaderFaker.RuleFor(x => x.BookID, faker => faker.IndexFaker);
                 bookReaderFaker.RuleFor(x => x.ReaderID, faker => faker.IndexFaker);
                 bookReaderFaker.RuleFor(x => x.LendDate, faker => faker.Date.Past());
-                var bookReaderModels = bookReaderFaker.Generate(2);
+                var bookReaderModels = bookReaderFaker.Generate(0);
 
                 foreach (var br in bookReaderModels)
                 {
-                    Console.WriteLine($"Book-Reader: {br.ID}, {br.BookID}, {br.ReaderID}, {br.LendDate}");
+                    Console.WriteLine($"Book-Reader: {br.ID}, {br.BookID}, {br.ReaderID},");
                 }
 
                 context.Books.AddRange(bookModels);
