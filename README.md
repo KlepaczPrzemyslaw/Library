@@ -1,4 +1,4 @@
-# Library
+# Library [JS / jQuery]
 - Project Date: 12-08-2018 to 16-08-2018
 - Description: Project after 4 weeks of study C# and JS at CodersLab
 - Project Description: Rest application with JS and Ajax.
